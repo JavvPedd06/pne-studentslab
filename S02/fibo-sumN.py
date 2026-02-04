@@ -11,6 +11,6 @@ def fibosum(n):
 
     return total
 
-print(fibosum(3))
 print(fibosum(5))
+print(fibosum(10))
 
