@@ -1,29 +1,16 @@
-sequence = input("Introduce the sequence: ").upper()
+from S03.S03.S03.dna_count import sequence
 
 
-count_A = 0
-count_C = 0
-count_T = 0
-count_G = 0
+def count_bases(sequence):
+    bases = {"A":0, "C":0, "T":0, "G":0}
+    for base in sequence:
+        if base in bases:
+            bases[base] =+ 1
+    return bases
 
-
-for base in sequence:
-    if base == 'A':
-        count_A += 1
-    elif base == 'C':
-        count_C += 1
-    elif base == 'T':
-        count_T += 1
-    elif base == 'G':
-        count_G += 1
-
-
-
-total_length = len(sequence)
-
-
-print(f"Total length: {total_length}")
-print(f"A: {count_A}")
-print(f"C: {count_C}")
-print(f"T: {count_T}")
-print(f"G: {count_G}")
+if __name__ == "__main__":
+    sequence = input("Introduce the seq: ")
+    print("Total length", len(sequence))
+    result = count_bases(sequence)
+    for base in result.items():
+        print(f'{base}:{count}')
