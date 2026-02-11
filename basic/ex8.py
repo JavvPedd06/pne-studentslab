@@ -27,7 +27,8 @@ for student in students:
     grades = student["grades"]
     avg = aver(grades)
     status = get_status(avg)
-    print(name + ": " + str(avg) + " -> " + status)
+
+    print(name , ":" , str(avg) , "->" , status)
     if status == "PASS":
         pass_count = pass_count + 1
     else:
