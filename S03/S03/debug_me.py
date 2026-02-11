@@ -18,5 +18,5 @@ print("Result 2: ", f(0, 2, 3, 3))
 print("Result 3: ", f(1, 3, 2, 3))
 print("Result 4: ", f(1, 9, 22.0, 3))
 
-#There is a zerodivisoon error in line 11
+#There is a zerodivisoon error in line 11.
 
