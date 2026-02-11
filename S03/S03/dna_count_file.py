@@ -17,7 +17,7 @@ if __name__ == "__main__":
     print("Total nº of bases:", total_number)
 
     for base, count in bases.items():
-        print(f'{base}:{count}')
+        print(f'{base}:{count}').
 
 
 
