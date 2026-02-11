@@ -34,8 +34,8 @@ for student in students:
     else:
         fail_count = fail_count + 1
 
-print("The amount of students that pass is:", pass_count)
-print("The amount of students that fail is:", fail_count)
+print("The amount of students that pass is: ", pass_count)
+print("The amount of students that fail is: ", fail_count)
 
 
 
