@@ -7,4 +7,4 @@ def cleaner(seq):
     seq1 = seq[first_end:]
     return seq1
 
-print(cleaner(file_contents))
+print(cleaner(file_contents))#done

@@ -15,3 +15,4 @@ def cleaner(seq):
 
 new_seq = cleaner(file_contents)
 print(len(new_seq))
+#done

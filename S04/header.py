@@ -6,7 +6,7 @@ def extract_header(text):
     for line in text.splitlines():
         if line.startswith('>'):
             print(line)
-    
-extract_header(file_contents)
+
+extract_header(file_contents)#done
 
 
