@@ -1,7 +1,7 @@
 from pathlib import Path
 
 EXON = "sequences/ADA_EXONS.txt"
-GENE_FILE = "sequences/ADA.txt"
+GENE_FILE = "../sequences/ADA.txt"
 MAX_CHROMOSOMAL_POSITION = 44652852
 
 

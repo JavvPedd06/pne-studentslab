@@ -1,5 +1,5 @@
 from pathlib import Path
-FILENAME = "sequences/U5.txt"
+FILENAME = "../sequences/U5.txt"
 file_contents = Path(FILENAME).read_text()
 
 def cleaner(seq):
