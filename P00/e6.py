@@ -23,4 +23,7 @@ gene_sequences = [cleanU5, cleanADA, cleanFRAT1, cleanFXN]
 print("EX 6:")
 for i in range(len(gene_names)):
     counts = seq_reverse(gene_sequences[i], 20)
-    print(f"Gene (reversed) {gene_names[i]}: {counts}")
+    print(f"Gene {gene_names[i]}:")
+    print(f"Fragment: {gene_sequences[i][0:20]}")
+    print(f"Reverse: {counts}")
+    print()
