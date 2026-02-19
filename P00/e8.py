@@ -21,7 +21,7 @@ cleanFXN= seq_read_fasta(geneFXN)
 gene_names = ["U5", "ADA", "FRAT1", "FXN"]
 gene_sequences = [cleanU5, cleanADA, cleanFRAT1, cleanFXN]
 
-print("EX 7:")
+print("EX 8:")
 for i in range(len(gene_names)):
     most_repeated= frequency((base_count(gene_sequences[i])))
     print(f"In the gene: {gene_names[i]}, the most frequent base is: {most_repeated}")
