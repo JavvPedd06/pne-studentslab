@@ -1,6 +1,6 @@
 from Seq1 import Seq
 from pathlib import Path
-print("-----| Practice 1, Exercise 9 |------")
+print("-----| Practice 1 Exercise 9 |------")
 U5 = "../sequences/U5.txt"
 s = Seq()
 s1 = s.seq_read_fasta(U5)

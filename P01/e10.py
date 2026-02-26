@@ -1,6 +1,6 @@
 from Seq1 import Seq
 from pathlib import Path
-print("-----| Practice 1, Exercise 10 |------")
+print("-----| Practice 1 Exercise 10 |------")
 U5 = "../sequences/U5.txt"
 ADA = "../sequences/ADA.txt"
 FRAT1 = "../sequences/FRAT1.txt"
