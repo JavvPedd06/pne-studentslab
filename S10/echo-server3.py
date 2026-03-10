@@ -60,9 +60,6 @@ while True:
 
 
         if num_connections == 5:
-            print("\n--- List of Connected Clients ---")
-
-
             for i in range(len(client_list)):
                 client = client_list[i]
                 print(f"Client {i + 1}: IP = {client[0]}, Port = {client[1]}")
