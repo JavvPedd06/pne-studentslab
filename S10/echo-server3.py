@@ -68,5 +68,5 @@ while True:
                 print(f"Client {i + 1}: IP = {client[0]}, Port = {client[1]}")
 
             ls.close()
-            print("Server finished after 5 connections.")
+            print("Server finished after 5 connections")
             exit()

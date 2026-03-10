@@ -27,7 +27,7 @@ while True:
         print(f"Connection {num_connections}")
         print(f"Client IP: {client_ip_port[0]}")
         print(f"Client Port: {client_ip_port[1]}")
-        print("A client has connected to the server!")
+        print("A client has connected to the server")
         msg_raw = cs.recv(2048)
         msg = msg_raw.decode()
         print(f"Message received: {msg}")

@@ -44,7 +44,7 @@ while True:
     # -- Execute this part if there are no errors
     else:
 
-        print("A client has connected to the server!")
+        print("A client has connected to the server")
 
         # -- Read the message from the client
         # -- The received message is in raw bytes

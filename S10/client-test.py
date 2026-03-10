@@ -12,7 +12,7 @@ while i < 5:
 
     print("Sending a message to the server...")
 
-    response = c.talk(f"Message {i}")
+    response = c.talk(f"Message: {i}")
 
     print(f"Response: {response}")
     i = i + 1
