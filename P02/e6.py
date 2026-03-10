@@ -1,12 +1,7 @@
 from Client0 import Client
 from P01.Seq1 import Seq
-
-
-
 FRAT1 = "../sequences/FRAT1.txt"
-
 s = Seq()
-
 
 PRACTICE = 2
 EXERCISE = 6
