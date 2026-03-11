@@ -36,12 +36,20 @@ class Seq:
             return 0
         return self.strbases.count(base)
 
-    def count(self):
+    def count_bases2(self):
         bases = {"A": 0, "C": 0, "T": 0, "G": 0}
         for base in self.strbases:
             if base in bases:
-                bases[base] = bases[base] + 1
-        return bases
+                bases[base] += 1
+
+        total = len(self.strbases)
+
+        result = {}
+        for base in ["A", "C", "G", "T"]:
+            percentage = round((bases[base] / total * 100), 1) if total > 0 else 0.0
+            result[base] = {"times": bases[base], "percentage": percentage}
+
+        return result
 
     def reverse(self):
         if self.strbases == "NULL" or self.strbases == "ERROR!":
