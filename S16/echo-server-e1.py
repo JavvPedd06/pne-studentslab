@@ -29,7 +29,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 response_content = Path('html/form-1.html').read_text()
                 status_code = 200
             except FileNotFoundError:
-                response_content = "Error: html/form-1.html not found."
+                response_content = "Error: html/index.html not found."
                 status_code = 404
 
         elif path == "/echo":

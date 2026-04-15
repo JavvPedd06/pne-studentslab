@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genomics Server</title>
+</head>
+<body>
+    <h1>Genomics Server</h1>
+
+    <section>
+        <h3>System Status</h3>
+        <a href="/ping"><button type="button">Ping Server</button></a>
+    </section>
+
+    <br><hr><br>
+
+    <section>
+        <h3>Sequence Generator</h3>
+        <form action="/get" method="get">
+            <label>Select sequence index:</label>
+            <select name="num">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button type="submit">Get Sequence</button>
+        </form>
+    </section>
+
+    <br><hr><br>
+
+    <section>
+        <h3>Gene Database Search</h3>
+        <form action="/gene" method="get">
+            <label>Select a Gene:</label>
+            <select name="name">
+                <option value="U5">U5</option>
+                <option value="ADA">ADA</option>
+                <option value="FRAT1">FRAT1</option>
+                <option value="FXN">FXN</option>
+                <option value="RNU6_269P">RNU6_269P</option>
+            </select>
+            <button type="submit">View Gene Sequence</button>
+        </form>
+    </section>
+
+</body>
+</html>
