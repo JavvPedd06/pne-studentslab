@@ -1,0 +1,18 @@
+[	{
+		"Firstname": "Troll",
+		"Lastname": "Face",
+		"age": 20,
+		"phoneNumber": ["1111", "2222"]
+	},
+	{
+		"Firstname": "Randy",
+		"Lastname": "Cunningam",
+		"age": 20,
+		"phoneNumber": ["6767"]
+	},
+	{
+		"Firstname": "Nikola",
+		"Lastname": "Jòkic",
+		"age": 20,
+		"phoneNumber": ["1312", "2026"]
+	}]
