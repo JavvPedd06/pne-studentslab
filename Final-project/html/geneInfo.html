@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gene Info</title>
+</head>
+
+<body>
+
+<h1>Gene Info</h1>
+
+<p>Gene searched: {{ gene }}</p>
+
+{% if info %}
+
+    <ul>
+        <li><b>Gene ID:</b> {{ info.gene_id }}</li>
+        <li><b>Gene name:</b> {{ info.gene_name }}</li>
+        <li><b>Chromosome:</b> {{ info.chromosome }}</li>
+        <li><b>Start:</b> {{ info.start }}</li>
+        <li><b>End:</b> {{ info.end }}</li>
+        <li><b>Length:</b> {{ info.length }}</li>
+    </ul>
+
+{% else %}
+
+    <p>Gene not found</p>
+
+{% endif %}
+
+<br>
+<a href="/">Back</a>
+
+</body>
+
+</html>
