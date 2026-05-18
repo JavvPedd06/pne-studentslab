@@ -5,8 +5,8 @@ import termcolor
 import json
 from urllib.parse import parse_qs, urlparse
 from jinja2 import Environment, FileSystemLoader
+import requests
 
-# Define the code parameters
 IP = "127.0.0.1"
 PORT = 8080
 PATH = "html"
@@ -167,6 +167,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         })
 
         return env.get_template("geneList.html").render(chromo=chromo,start=start,end=end,genes=genes)
+
+    def wants_json(self, params):
+        return params.get("json") == "1"
 
     def do_GET(self):
         print("GET received! Request line:")
