@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ensembl Web Server</title>
+</head>
+<body>
+    <h1>Ensembl REST Services</h1>
+
+    <h3>1. List Species</h3>
+    <form action="/listSpecies" method="get">
+        Limit: <input type="number" name="limit">
+        <input type="submit" value="Get Species">
+    </form>
+
+    <h3>2. Get Karyotype</h3>
+    <form action="/karyotype" method="get">
+        Species: <input type="text" name="species" required>
+        <input type="submit" value="Get Karyotype">
+    </form>
+
+    <h3>3. Chromosome Length</h3>
+    <form action="/chromosomeLength" method="get">
+        Species: <input type="text" name="species" required>
+        Chromo: <input type="text" name="chromo" required>
+        <input type="submit" value="Get Length">
+    </form>
+
+    <h3>4.Gene ID</h3>
+    <form action="/geneLookup" method="get">
+        <label for="gene">Gene name:</label>
+        <input type="text" id="gene" name="gene">
+        <input type="submit" value="Search">
+    </form>
+
+    <h3>5.Gene Seq</h3>
+    <form action="/geneSeq" method="get">
+        <label for="gene">Gene name:</label>
+        <input type="text" id="gene" name="gene">
+        <input type="submit" value="Get Sequence">
+    </form>
+
+    <h3>6.Gene Info</h3>
+    <form action="/geneInfo" method="get">
+
+        <label for="gene">Gene name:</label>
+        <input type="text" id="gene" name="gene">
+
+        <input type="submit" value="Get Info">
+
+    </form>
+    <h3>7.Gene Calculator</h3>
+    <form action="/geneCalc" method="get">
+
+        <label for="gene">Gene name:</label>
+
+        <input type="text" id="gene" name="gene" required>
+
+        <input type="submit" value="Calculate">
+
+    </form>
+
+    <form action="/geneList" method="get">
+
+    <label>Chromosome:</label>
+    <input type="text" name="chromo" required>
+
+    <label>Start:</label>
+    <input type="number" name="start" required>
+
+    <label>End:</label>
+    <input type="number" name="end" required>
+
+    <input type="submit" value="Search">
+
+</form>
+</body>
+</html>

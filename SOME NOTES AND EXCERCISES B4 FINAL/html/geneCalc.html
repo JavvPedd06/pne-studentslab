@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gene Calculator</title>
+</head>
+<body>
+<h1>Gene Calculator</h1>
+<p>Gene: {{ gene }}</p>
+<p>Gene ID: {{ gene_id }}</p>
+{% if error %}
+    <p style="color:red">{{ error }}</p>
+{% else %}
+
+    <h3>Results</h3>
+
+    <ul>
+        <li>Total length: {{ length }}</li>
+        <li>A: {{ a }}%</li>
+        <li>T: {{ t }}%</li>
+        <li>C: {{ c }}%</li>
+        <li>G: {{ g }}%</li>
+    </ul>
+
+{% endif %}
+<br>
+<a href="/">Back</a>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gene List</title>
+</head>
+
+<body>
+
+<h1>Genes in Region</h1>
+
+<p>Chromosome: {{ chromo }}</p>
+<p>Start: {{ start }}</p>
+<p>End: {{ end }}</p>
+
+{% if genes %}
+
+    <ul>
+    {% for gene in genes %}
+        <li>
+            {{ gene.name }} ({{ gene.id }})
+        </li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+
+    <p>No genes found in this region.</p>
+
+{% endif %}
+
+<br>
+<a href="/">Back</a>
+
+</body>
+
+</html>

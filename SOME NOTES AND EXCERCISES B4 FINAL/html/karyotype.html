@@ -1,0 +1,7 @@
+<h1>Karyotype of {{ species }}</h1>
+<ul>
+    {% for chrom in karyotype %}
+    <li>Chromosome {{ chrom }}</li>
+    {% endfor %}
+</ul>
+<a href="/">Back</a>

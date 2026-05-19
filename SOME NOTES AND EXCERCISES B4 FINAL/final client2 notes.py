@@ -1,3 +1,4 @@
+#The whole idea of a client is to connect with the server
 import http.client
 import json
 
@@ -5,21 +6,30 @@ PORT = 8080
 SERVER = '127.0.0.1'
 print(f"\nConnecting to server: {SERVER}:{PORT}\n")
 
+#This connects with the server
 conn = http.client.HTTPConnection(SERVER, PORT)
 try:
+    #THIS IS THE KEY, this is the URL that have the things that will lately be the params
+    #This is: conn.request(METHOD, URL) which oh wow, is: conn.request("GET", endpoint, headers=headers) (from the server)
     conn.request("GET", "/listSpecies?limit=5&json=1")
 
 except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-
+#This get a response
 response = conn.getresponse()
 print(f"Response received!: {response.status} {response.reason}\n")
 
+#ALSO IMPORTANT this basically reads the bytes from the server
+#The .decode("utf-8") turn those bytes into a normal and legible thing
 data = response.read().decode("utf-8")
+
+#This loads the json dta into a dictionary legible for python
 json_data = json.loads(data)
 
+
+#UNDER THIS ARE ALL THE PRINTS FOR THE DIFFERENT THINGS THE SERVER CAN DO
 print("SPECIES LIST:\n")
 for species in json_data["species"]:
     print(species["display_name"])

@@ -1,0 +1,7 @@
+<h1>Available Species</h1>
+<ul>
+    {% for s in species_list %}
+    <li>{{ s.display_name }} (<i>{{ s.name }}</i>)</li>
+    {% endfor %}
+</ul>
+<a href="/">Back</a>
