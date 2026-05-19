@@ -33,7 +33,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         path_object = Path(filename)
         contents = path_object.read_text(encoding="utf-8")
 
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/html notes')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished

@@ -29,7 +29,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 response_content = Path('html/form-1.html').read_text()
                 status_code = 200
             except FileNotFoundError:
-                response_content = "Error: html/index.html not found."
+                response_content = "Error: html notes/index1.html notes not found."
                 status_code = 404
 
         elif path == "/echo":
@@ -37,15 +37,15 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             message = arguments.get('msg', [''])[0]
 
             response_content = f"""
-            <!DOCTYPE html>
-            <html>
+            <!DOCTYPE html notes>
+            <html notes>
             <head><title>Message:</title></head>
             <body>
                 <h1>Echo Server Response</h1>
                 <p><strong>{message}</strong></p>
                 <a href="/">Return to the main form</a>
             </body>
-            </html>
+            </html notes>
             """
             status_code = 200
 
@@ -56,7 +56,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
 
         self.send_response(status_code)
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/html notes')
 
         response_bytes = response_content.encode('utf-8')
         self.send_header('Content-Length', len(response_bytes))

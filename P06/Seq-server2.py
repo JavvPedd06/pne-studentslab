@@ -28,7 +28,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 response_content = Path('html/operations.html').read_text()
                 status_code = 200
             except FileNotFoundError:
-                response_content = "Error: html/gene.html not found."
+                response_content = "Error: html notes/gene.html notes not found."
                 status_code = 404
 
         # ---------------------------------------------------------------------
@@ -36,14 +36,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # ---------------------------------------------------------------------
         elif path == "/ping":
             response_content = """
-            <html>
+            <html notes>
             <head><title>Ping Status</title></head>
             <body>
                 <h1 style="color: green;">The server is alive!</h1>
                 <hr>
                 <a href="/">Return to the main page</a>
             </body>
-            </html>
+            </html notes>
             """
             status_code = 200
 
@@ -60,7 +60,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 dna_string = "Invalid selection"
 
             response_content = f"""
-            <html>
+            <html notes>
             <head><title>Sequence {num_selected}</title></head>
             <body>
                 <h1>Sequence Number: {num_selected}</h1>
@@ -68,7 +68,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 <hr>
                 <a href="/">Return to the main page</a>
             </body>
-            </html>
+            </html notes>
             """
             status_code = 200
 
@@ -100,7 +100,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 status_code = 404
 
             response_content = f"""
-            <html>
+            <html notes>
             <head><title>Gene: {gene_name}</title></head>
             <body>
                 <h1>Gene Result: {gene_name}</h1>
@@ -108,7 +108,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 <hr>
                 <a href="/">Return to the main page</a>
             </body>
-            </html>
+            </html notes>
             """
 
         # ---------------------------------------------------------------------
@@ -137,7 +137,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 result = seq[::-1]
 
             response_content = f"""
-            <html>
+            <html notes>
             <head><title>{title}</title></head>
             <body>
                 <h1>{title}</h1>
@@ -146,7 +146,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 <hr>
                 <a href="/">Return to the main page</a>
             </body>
-            </html>
+            </html notes>
             """
             status_code = 200
 
@@ -155,11 +155,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # ---------------------------------------------------------------------
         else:
             status_code = 404
-            response_content = "<html><body><h1>404 Not Found</h1><a href='/'>Back</a></body></html>"
+            response_content = "<html notes><body><h1>404 Not Found</h1><a href='/'>Back</a></body></html notes>"
 
         # Final Header and Writing
         self.send_response(status_code)
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/html notes')
         response_bytes = response_content.encode('utf-8')
         self.send_header('Content-Length', len(response_bytes))
         self.end_headers()

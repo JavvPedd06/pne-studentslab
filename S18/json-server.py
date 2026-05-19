@@ -30,7 +30,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if resource == "/":
             # Read the file
             contents = Path('index.html').read_text()
-            content_type = 'text/html'
+            content_type = 'text/html notes'
             error_code = 200
         elif resource == "/listusers":
             # Read the file
@@ -39,8 +39,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             error_code = 200
         else:
             # Read the file
-            contents = Path('error.html').read_text()
-            content_type = 'text/html'
+            contents = Path('error.html notes').read_text()
+            content_type = 'text/html notes'
             error_code = 404
 
         # Generating the response message

@@ -24,7 +24,7 @@ def process_client(s):
     path_list = ["/info/A"]
 
     if path in path_list:
-        body = Path("html" + path + ".html").read_text()
+        body = Path("html notes" + path + ".html notes").read_text()
 
     print("Request line: ", end="")
     termcolor.cprint(req_line, "green")
@@ -43,7 +43,7 @@ def process_client(s):
     status_line = "HTTP/1.1 200 OK\n"
 
     # -- Add the Content-Type header
-    header = "Content-Type: text/html\n"
+    header = "Content-Type: text/html notes\n"
 
     # -- Add the Content-Length
     header += f"Content-Length: {len(body)}\n"

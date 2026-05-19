@@ -22,7 +22,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Print the request line
         termcolor.cprint(self.requestline, 'green')
 
-        # Open the form1.html file
+        # Open the form1.html notes file
         # Read the index from the file
         contents = Path('html/form-1.html').read_text()
 
@@ -30,7 +30,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/html notes')
         self.send_header('Content-Length', len(str.encode(contents)))
 
         # The header is finished

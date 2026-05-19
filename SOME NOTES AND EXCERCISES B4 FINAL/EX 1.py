@@ -1,3 +1,4 @@
+#Add a new endpoint called: /geneLength
 import http.server
 import http.client
 import socketserver
@@ -6,7 +7,6 @@ import json
 import sys
 from urllib.parse import parse_qs, urlparse
 from jinja2 import Environment, FileSystemLoader
-
 sys.path.append("../P01")
 from Seq1 import Seq
 
@@ -23,22 +23,12 @@ PAGES = [
     "/geneSeq",
     "/geneInfo",
     "/geneCalc",
-    "/geneList"
+    "/geneList",
+    "/geneLength"
 ]
 
-env = Environment(loader=FileSystemLoader(PATH))  # This part creates the jinja enviroment.
-
-
+env = Environment(loader=FileSystemLoader(PATH))
 class TestHandler(http.server.BaseHTTPRequestHandler):
-    # THIS IS THE FUNCTION I USE TO CONNECT WITH ENSEMBL.
-    # 1st creates a connection conn = http.client.HTTPSConnection(SERVER)
-    # It sends a GET request conn.request("GET", endpoint, headers=headers)
-    # Recieves a positive response if everything is working
-    # the json.loads(response.read().decode())
-    # Does 3 things:
-    # -Read the bytes of the response .read()
-    # -Turn the bytes into a string .decode()
-    # -Load the json string into a dictionary .loads()
     def get_ensembl_data(self, endpoint):
         conn = http.client.HTTPSConnection(SERVER)
         headers = {"Content-Type": "application/json"}
@@ -48,15 +38,38 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             return json.loads(response.read().decode())
         return None
 
-    # This function checks if the user wants a JSON information (For the advanced part)
+
+
     def wants_json(self, params):
         return params.get("json") == "1"
 
-    # This function get a list of species from ensembl using the previous function data = self.get_ensembl_data("/info/species")
-    # From the data, then the species are extracted
-    # The limit is extracted from the info the user provides.ç
-    # In case the user wants the json then it is dumped into a dictionary.
-    # The html notes part returns the information loading the template called list.html notes (stored in the folder...) THE JINJA THING
+
+    def geneLength(self, params):
+        gene = params.get("gene", "")
+        data = self.get_ensembl_data(f"/lookup/symbol/homo_sapiens/{gene}?expand=1")
+        if not data:
+            data = {}
+        start = data.get("start")
+        end = data.get("end")
+
+        length = end - start
+        result = {"gene": gene, "length": length}
+        if self.wants_json(params):
+            return json.dumps(result), "application/json"
+
+        html = f"""
+           <html notes>
+               <body>
+                   <h1>Gene Length</h1>
+                   <p>Gene: {gene}</p>
+                   <p>Length: {length}</p>
+               </body>
+           </html notes>
+           """
+        return html, "text/html notes"
+
+
+
     def listSpecies(self, params):
         data = self.get_ensembl_data("/info/species")
         species_list = data.get("species", []) if data else []
@@ -70,9 +83,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         html = env.get_template("list.html notes").render(species_list=species_list)
         return html, "text/html notes"
 
-    # This function gets the karyotype using the function get_ensembl
-    # Same idea as before
-    # The params thing is obtained by the GET function (At the very end)
+
+
     def karyotype(self, params):
         species = params.get("species", "")
         data = self.get_ensembl_data(f"/info/assembly/{species}")
@@ -84,15 +96,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("karyotype.html notes").render(species=species, karyotype=karyotype)
+        html = env.get_template("karyotype.html notes").render(
+            species=species,
+            karyotype=karyotype)
+
         return html, "text/html notes"
 
-    # THIS function obtains the length of the desired chromosome
-    # With the params the species and the chromosome is obtained
-    # The data in ensmbl is sotred in regions.
-    # the interesting region here is top_level_data. If it exists for each region in the top_region it looks for the name part which is associated with a chromosome
-    # If the name of the chromosomes is the same as the one stored, the length stored is the one associated
-    # the post-processing is the same.
+
+
     def chromosomeLength(self, params):
         species = params.get("species", "")
         chromo = params.get("chromo", "")
@@ -114,15 +125,15 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("length.html notes").render(species=species, chromo=chromo, length=length)
+        html = env.get_template("length.html notes").render(species=species,chromo=chromo,length=length)
         return html, "text/html notes"
 
-    # This function obtains the Id of a gene
-    # If the data type is == gene then the id is found
-    # The result is stored in a dictionary
+
+
     def geneLookup(self, params):
         gene = params.get("gene", "")
-        data = self.get_ensembl_data(f"/xrefs/symbol/homo_sapiens/{gene}")
+        data = self.get_ensembl_data(
+            f"/xrefs/symbol/homo_sapiens/{gene}")
 
         gene_id = "Not Found"
         if data:
@@ -138,14 +149,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("geneLookup.html notes").render(gene=gene, gene_id=gene_id)
+        html = env.get_template("geneLookup.html notes").render(gene=gene,gene_id=gene_id)
         return html, "text/html notes"
 
-    # This obtains the sequence of a gene
-    # It firstly obtains the id of a gene just like before
-    # If the gene id is found then it looks for the sequence. Creating the seq_data variable which contains a lot of data
-    # Then the final sequence is the seq part of the seq_data
-    # Jsut like in the previous one, the data is stored in a dictionary
+
+
     def geneSeq(self, params):
         gene = params.get("gene", "")
         data = self.get_ensembl_data(f"/xrefs/symbol/homo_sapiens/{gene}")
@@ -166,30 +174,27 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         result = {
             "gene": gene,
             "gene_id": gene_id,
-            "sequence": sequence
-        }
+            "sequence": sequence}
 
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("geneSeq.html notes").render(gene=gene, gene_id=gene_id, sequence=sequence)
+        html = env.get_template("geneSeq.html notes").render(gene=gene,gene_id=gene_id,sequence=sequence)
+
         return html, "text/html notes"
 
-    # This function get the key info a gene
-    # The parameter input is the gene name.
-    # with the get.() starts looking for the data in particular need
-    # The length is manually calculated
-    # Evreything is stored in a dict which is then put inside another one
+
     def geneInfo(self, params):
         gene = params.get("gene", "")
-        data = self.get_ensembl_data(f"/lookup/symbol/homo_sapiens/{gene}?expand=1")
+        data = self.get_ensembl_data(
+            f"/lookup/symbol/homo_sapiens/{gene}?expand=1")
 
         if not data:
             data = {}
 
         gene_id = data.get("id", "Not Found")
         gene_name = data.get("display_name", gene)
-        chromosome = data.get("seq_region_name", "Unknown")
+        chromosome = data.get("seq_region_name","Unknown")
 
         start = data.get("start", "Unknown")
         end = data.get("end", "Unknown")
@@ -203,20 +208,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             "chromosome": chromosome,
             "start": start,
             "end": end,
-            "length": length}
+            "length": length
+        }
 
-        result = {"gene": gene, "info": info}
+        result = {"gene": gene,"info": info}
 
         if self.wants_json(params):
             return json.dumps(result), "application/json"
-        html = env.get_template("geneInfo.html notes").render(gene=gene, info=info)
+        html = env.get_template("geneInfo.html notes").render(gene=gene,info=info)
 
         return html, "text/html notes"
 
-    # This function is quite complicated, it calculates everything
-    # Firstly it makes sure that the gene_id and the seq_data exist
-    # Then, using the seq class, computes the info of the sequence obtained in sequence = seq_data["seq"].upper()
-    # The info is stored in a dictionary
     def geneCalc(self, params):
         gene = params.get("gene", "")
         lookup = self.get_ensembl_data(f"/xrefs/symbol/homo_sapiens/{gene}")
@@ -229,25 +231,27 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     break
 
         if not gene_id:
-            result = {"gene": gene, "error": "Gene not found"}
+            result = {"gene": gene,"error": "Gene not found"}
 
             if self.wants_json(params):
                 return json.dumps(result), "application/json"
 
-            html = env.get_template("geneCalc.html notes").render(gene=gene, error="Gene not found")
+            html = env.get_template("geneCalc.html notes").render(gene=gene,error="Gene not found")
             return html, "text/html notes"
 
         seq_data = self.get_ensembl_data(f"/sequence/id/{gene_id}")
 
         if not seq_data or "seq" not in seq_data:
-            result = {"gene": gene, "error": "Sequence not found"}
+            result = {"gene": gene,"error": "Sequence not found"}
 
             if self.wants_json(params):
                 return json.dumps(result), "application/json"
 
-            html = env.get_template("geneCalc.html notes").render(gene=gene, error="Sequence not found")
+            html = env.get_template("geneCalc.html notes").render(gene=gene,error="Sequence not found")
 
             return html, "text/html notes"
+
+
 
         sequence = seq_data["seq"].upper()
         seq = Seq(sequence)
@@ -272,27 +276,27 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("geneCalc.html notes").render(gene=gene, gene_id=gene_id, length=length, a=a_pct, c=c_pct,
-                                                        g=g_pct, t=t_pct)
+        html = env.get_template("geneCalc.html notes").render(gene=gene,gene_id=gene_id,length=length,a=a_pct,c=c_pct,g=g_pct,t=t_pct)
 
         return html, "text/html notes"
 
-    # This get all the genes in a chromosome region
-    # It saves the name and id as well as the chromosome, start and endpoint (Inputed by the user)
+
     def geneList(self, params):
         chromo = params.get("chromo", "")
         start = params.get("start", "")
         end = params.get("end", "")
         genes = []
         if chromo and start and end:
-            data = self.get_ensembl_data(f"/overlap/region/human/{chromo}:{start}-{end}?feature=gene")
+            data = self.get_ensembl_data(
+                f"/overlap/region/human/{chromo}:{start}-{end}?feature=gene")
 
             if data:
                 for item in data:
                     gene_name = item.get("external_name")
+
                     gene_id = item.get("id")
                     if gene_name:
-                        genes.append({"name": gene_name, "id": gene_id})
+                        genes.append({"name": gene_name,"id": gene_id})
 
         result = {
             "chromosome": chromo,
@@ -303,27 +307,16 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.wants_json(params):
             return json.dumps(result), "application/json"
 
-        html = env.get_template("geneList.html notes").render(chromo=chromo, start=start, end=end, genes=genes)
+        html = env.get_template("geneList.html notes").render(chromo=chromo,start=start,end=end,genes=genes)
         return html, "text/html notes"
 
-    # THIS IS THE KEY METHOD
-    # The parsed thing splits the URL
-    # params = {k: v[0]for k, v in parse_qs(parsed_url.query).items()}
-    # -It converts the URL parameters into a normal Python dictionary.
-    # -Basically the function converts query parameters into a dictionary.
-    # The final params basically turns something like:
-    # params = {
-    #     "gene": "BRCA2",
-    #     "json": "1"
-    # } WHICH IS SOMETHING USEFUL
     def do_GET(self):
         print("GET received!")
-        termcolor.cprint("  " + self.requestline, "green")
+        termcolor.cprint("  " + self.requestline,"green")
         parsed_url = urlparse(self.path)
         dir_path = parsed_url.path
-        params = {k: v[0] for k, v in parse_qs(parsed_url.query).items()}
+        params = {k: v[0]for k, v in parse_qs(parsed_url.query).items()}
 
-        # THIS IS THE ROUTING, it controls what is executed
         try:
 
             if dir_path == "/" or dir_path == "/index1.html notes":
@@ -362,6 +355,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                 contents, style = self.geneList(params)
 
+            elif dir_path == PAGES[8]:
+                contents, style = self.geneLength(params)
+
             else:
 
                 raise FileNotFoundError
@@ -381,14 +377,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             style = "text/html notes"
             response_code = 404
 
-        # This is where everything is encoded.
-        # this is where the data is send. THis is what the dreams are made of
-        contents = contents.replace("[[lnk]]", LNK)
-        encoded_content = contents.encode("utf-8")
-        self.send_response(response_code)
+        contents = contents.replace("[[lnk]]",LNK)
 
-        self.send_header("Content-Type", style)
-        self.send_header("Content-Length", len(encoded_content))
+        encoded_content = contents.encode("utf-8")
+
+        self.send_response(response_code)
+        self.send_header("Content-Type",style)
+
+        self.send_header("Content-Length",len(encoded_content))
 
         self.end_headers()
         self.wfile.write(encoded_content)
@@ -398,7 +394,8 @@ socketserver.TCPServer.allow_reuse_address = True
 
 Handler = TestHandler
 
-with socketserver.TCPServer((IP, PORT), Handler) as httpd:
+with socketserver.TCPServer((IP, PORT),Handler) as httpd:
+
     print(f"Serving at {LNK}")
     try:
         httpd.serve_forever()

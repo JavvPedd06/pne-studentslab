@@ -1,3 +1,4 @@
+#ADD THE ENDPOINT /geneReverse
 import http.server
 import http.client
 import socketserver
@@ -23,7 +24,8 @@ PAGES = [
     "/geneSeq",
     "/geneInfo",
     "/geneCalc",
-    "/geneList"
+    "/geneList",
+    "/geneReverse"
 ]
 
 env = Environment(loader=FileSystemLoader(PATH))  # This part creates the jinja enviroment.
@@ -305,6 +307,57 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         html = env.get_template("geneList.html notes").render(chromo=chromo, start=start, end=end, genes=genes)
         return html, "text/html notes"
+    def geneReverse(self,params):
+        gene = params.get("gene", "")
+
+        lookup = self.get_ensembl_data(f"/xrefs/symbol/homo_sapiens/{gene}")
+
+        gene_id = None
+        if lookup:
+            for item in lookup:
+                if item.get("type") == "gene":
+                    gene_id = item.get("id")
+                    break
+
+        if not gene_id:
+            result = {"gene": gene, "error": "Gene not found"}
+
+            if self.wants_json(params):
+                return json.dumps(result), "application/json"
+
+            html = env.get_template("geneCalc.html notes").render(gene=gene, error="Gene not found")
+            return html, "text/html notes"
+
+        seq_data = self.get_ensembl_data(f"/sequence/id/{gene_id}")
+
+        if not seq_data or "seq" not in seq_data:
+            result = {"gene": gene, "error": "Sequence not found"}
+
+            if self.wants_json(params):
+                return json.dumps(result), "application/json"
+
+            html = env.get_template("geneCalc.html notes").render(gene=gene, error="Sequence not found")
+
+            return html, "text/html notes"
+
+        sequence = seq_data["seq"].upper()
+        seq = Seq(sequence)
+        reverse_seq = seq.reverse()
+
+        result = {
+            "gene": gene,
+            "gene_id": gene_id,
+            "sequence": sequence,
+            "reverse": reverse_seq
+        }
+
+        if self.wants_json(params):
+            return json.dumps(result), "application/json"
+
+        html = env.get_template("geneReverse").render(gene=gene, gene_id = gene_id, sequence = sequence, reverse=reverse_seq)
+        return html, "text/html notes"
+
+
 
     # THIS IS THE KEY METHOD
     # The parsed thing splits the URL
@@ -326,8 +379,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # THIS IS THE ROUTING, it controls what is executed
         try:
 
-            if dir_path == "/" or dir_path == "/index1.html notes":
-                contents = env.get_template("index1.html notes").render()
+            if dir_path == "/" or dir_path == "/index2.html notes":
+                contents = env.get_template("index2.html notes").render()
                 style = "text/html notes"
 
             elif dir_path == PAGES[0]:
@@ -361,6 +414,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             elif dir_path == PAGES[7]:
 
                 contents, style = self.geneList(params)
+            elif dir_path == PAGES[8]:
+
+                contents, style = self.geneReverse(params)
 
             else:
 

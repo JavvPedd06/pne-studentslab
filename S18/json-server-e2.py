@@ -15,7 +15,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         if resource == "/":
             contents = Path('index.html').read_text()
-            content_type = 'text/html'
+            content_type = 'text/html notes'
             error_code = 200
         elif resource == "/listusers":
 
@@ -24,7 +24,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             error_code = 200
         else:
             contents = "<h1>404 Not Found</h1>"
-            content_type = 'text/html'
+            content_type = 'text/html notes'
             error_code = 404
 
         self.send_response(error_code)

@@ -4,7 +4,7 @@
     <title>Ensembl Web Server</title>
 </head>
 <body>
-    <h1>Ensembl Server</h1>
+    <h1>Ensembl REST Services</h1>
 
     <h3>1. List Species</h3>
     <form action="/listSpecies" method="get">
@@ -71,7 +71,24 @@
     <input type="number" name="end" required>
 
     <input type="submit" value="Search">
+    </form>
+    <h2>Gene reverse</h2>
 
-</form>
+    <form action="/geneReverse" method="get">
+        Gene:
+        <input type="text" name="gene">
+        <br><br>
+
+        JSON:
+        <input type="checkbox" name="json" value="1">
+
+        <br><br>
+
+        <input type="submit" value="Send">
+
+    </form>
+
+    <hr>
+
 </body>
 </html>

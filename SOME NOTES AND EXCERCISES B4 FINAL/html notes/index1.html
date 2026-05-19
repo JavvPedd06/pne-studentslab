@@ -71,7 +71,24 @@
     <input type="number" name="end" required>
 
     <input type="submit" value="Search">
+    </form>
+    <h2>Gene Length</h2>
 
-</form>
+    <form action="/geneLength" method="get">
+        Gene:
+        <input type="text" name="gene">
+        <br><br>
+
+        JSON:
+        <input type="checkbox" name="json" value="1">
+
+        <br><br>
+
+        <input type="submit" value="Send">
+
+    </form>
+
+    <hr>
+
 </body>
 </html>
